@@ -1,43 +1,13 @@
-# Welcome to Remix + Cloudflare Workers!
+# Player: React (CSS)
 
-- 📖 [Remix docs](https://remix.run/docs)
-- 📖 [Remix Cloudflare docs](https://remix.run/guides/vite#cloudflare)
+This example demonstrates setting up your custom video player layout with CSS using Vidstack Player
+React.
 
-## Development
+The CSS option we're building on provides you with a minimal starting point and completely
+unstyled components. All components including the player itself provide styling hooks via data
+attributes and support animations. This option is best when you want to build your player yourself
+from scratch using vanilla CSS.
 
-Run the dev server:
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)][stackblitz-demo]
 
-```sh
-npm run dev
-```
-
-To run Wrangler:
-
-```sh
-npm run build
-npm start
-```
-
-## Typegen
-
-Generate types for your Cloudflare bindings in `wrangler.toml`:
-
-```sh
-npm run typegen
-```
-
-You will need to rerun typegen whenever you make changes to `wrangler.toml`.
-
-## Deployment
-
-If you don't already have an account, then [create a cloudflare account here](https://dash.cloudflare.com/sign-up) and after verifying your email address with Cloudflare, go to your dashboard and set up your free custom Cloudflare Workers subdomain.
-
-Once that's done, you should be able to deploy your app:
-
-```sh
-npm run deploy
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+[stackblitz-demo]: https://stackblitz.com/fork/github/vidstack/examples/tree/main/player/react/css?title=Vidstack%20Player%20-%20React%20%28CSS%29&file=src/main.ts&showSidebar=1
