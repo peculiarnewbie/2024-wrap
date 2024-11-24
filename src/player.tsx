@@ -18,9 +18,8 @@ import {
 } from "@vidstack/react";
 
 import { VideoLayout } from "./components/layouts/video-layout";
-import { textTracks } from "./tracks";
 
-export function Player() {
+export function Player(props: { src: string }) {
 	let player = useRef<MediaPlayerInstance>(null);
 
 	useEffect(() => {
@@ -53,7 +52,7 @@ export function Player() {
 		<MediaPlayer
 			className={`${styles.player} player`}
 			title="Sprite Fight"
-			src="youtu.be/V9PVRfjEBTI"
+			src={props.src}
 			crossOrigin
 			playsInline
 			onProviderChange={onProviderChange}
@@ -61,12 +60,12 @@ export function Player() {
 			ref={player}
 		>
 			<MediaProvider>
-				{textTracks.map((track) => (
+				{/* {textTracks.map((track) => (
 					<Track {...track} key={track.src} />
-				))}
+				))} */}
 			</MediaProvider>
 
-			<VideoLayout thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt" />
+			<VideoLayout />
 		</MediaPlayer>
 	);
 }
