@@ -4,7 +4,7 @@ import { Player } from "./player";
 import Scene from "./scene";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { Test } from "./test";
-import { Albums } from "./components/Albums";
+import { Albums } from "./components/albums";
 
 const root = document.getElementById("scene")!;
 ReactDOM.createRoot(root).render(
