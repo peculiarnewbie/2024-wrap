@@ -1,8 +1,9 @@
 import { Canvas } from "@react-three/fiber";
 import { albumState, Items } from "../test";
 import { albums } from "../albums";
-import Video from "./Video";
+import Video from "./video";
 import { useState } from "react";
+import "../document.css";
 
 export const Albums = () => {
     const [index, setIndex] = useState(24);
@@ -14,7 +15,15 @@ export const Albums = () => {
 
     return (
         <div>
-            <div style={{ display: "flex" }}>
+            <div
+                className="following-element"
+                style={{
+                    display: "flex",
+                    backgroundColor: "white",
+                    padding: 10,
+                    position: "absolute",
+                }}
+            >
                 {/* <Video index={index} /> */}
             </div>
             <Canvas

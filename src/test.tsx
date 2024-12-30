@@ -41,8 +41,9 @@ function Item({
     const scroll = useScroll();
     const { clicked, urls } = useSnapshot(albumState);
     const [hovered, hover] = useState(false);
-    const width = useThree((state) => state.viewport);
-    const { camera, size } = useThree();
+    const positionRef = useRef(new THREE.Vector3());
+    const tempV = useRef(new THREE.Vector3());
+    const { camera } = useThree();
     const click = () => {
         albumState.clicked = index === clicked ? null : index;
         //@ts-expect-error
@@ -51,28 +52,20 @@ function Item({
         // console.log(scroll.el.scrollLeft);
     };
 
-    const debug = (pos: THREE.Vector3) => {
-        const vec = new THREE.Vector3();
-        vec.project(camera);
+    const trackVideo = (pos: THREE.Vector3) => {
+        if (!ref.current) return;
 
-        const totalSceneWidth = size.width * scroll.pages;
+        ref.current.getWorldPosition(tempV.current);
 
-        const scrollOffset = scroll.offset * totalSceneWidth;
+        tempV.current.project(camera);
 
-        // Convert to pixel coordinates
-        const x = (pos.x * 0.5 + 0.5) * window.innerWidth - scrollOffset;
-        const y = (-pos.y * 0.5 + 0.5) * window.innerHeight;
+        const x = ((tempV.current.x + 1) * window.innerWidth) / 2;
+        const y = ((-tempV.current.y + 1) * window.innerHeight) / 2;
 
-        // Get scale in screen space
-        const scale = [
-            ref.current?.scale.x *
-                (window.innerWidth /
-                    (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)))),
-            ref.current?.scale.y *
-                (window.innerHeight /
-                    (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)))),
-        ];
-        console.log(x, pos.x, scroll.offset);
+        positionRef.current.set(x, y, 0);
+
+        document.documentElement.style.setProperty("--video-x", `${x}px`);
+        document.documentElement.style.setProperty("--video-y", `${y}px`);
     };
     const over = () => hover(true);
     const out = () => hover(false);
@@ -127,7 +120,7 @@ function Item({
             hovered ? 0.3 : 0.15,
             delta
         );
-        // if (index === 24) debug(ref.current.position);
+        if (clicked === index) trackVideo(ref.current.position);
     });
     return (
         <Image
