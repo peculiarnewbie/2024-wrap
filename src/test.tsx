@@ -42,13 +42,37 @@ function Item({
     const { clicked, urls } = useSnapshot(albumState);
     const [hovered, hover] = useState(false);
     const width = useThree((state) => state.viewport);
+    const { camera, size } = useThree();
     const click = () => {
         albumState.clicked = index === clicked ? null : index;
         //@ts-expect-error
         scroll.scroll.current = index / (urls.length - 1);
         props.selectAlbum(index);
         // console.log(scroll.el.scrollLeft);
-        // console.log(index, scroll.scroll.current);
+    };
+
+    const debug = (pos: THREE.Vector3) => {
+        const vec = new THREE.Vector3();
+        vec.project(camera);
+
+        const totalSceneWidth = size.width * scroll.pages;
+
+        const scrollOffset = scroll.offset * totalSceneWidth;
+
+        // Convert to pixel coordinates
+        const x = (pos.x * 0.5 + 0.5) * window.innerWidth - scrollOffset;
+        const y = (-pos.y * 0.5 + 0.5) * window.innerHeight;
+
+        // Get scale in screen space
+        const scale = [
+            ref.current?.scale.x *
+                (window.innerWidth /
+                    (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)))),
+            ref.current?.scale.y *
+                (window.innerHeight /
+                    (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)))),
+        ];
+        console.log(x, pos.x, scroll.offset);
     };
     const over = () => hover(true);
     const out = () => hover(false);
@@ -103,6 +127,7 @@ function Item({
             hovered ? 0.3 : 0.15,
             delta
         );
+        // if (index === 24) debug(ref.current.position);
     });
     return (
         <Image
@@ -125,6 +150,7 @@ export function Items(props: {
     // export function Items(props:{ w: 0.7, gap = 0.15  }) {
     const { urls } = useSnapshot(albumState);
     const { width } = useThree((state) => state.viewport);
+    const pages = (width - props.w + urls.length * props.w) / width;
     const xW = props.w + props.gap;
     return (
         <ScrollControls

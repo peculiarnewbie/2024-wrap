@@ -1,10 +1,11 @@
-export const albums: {
+export type Album = {
     artist: string;
     albumTitle: string;
     videoLink: string;
     cover: string;
     startTime: number;
-}[] = [
+};
+export const albums: Album[] = [
     {
         artist: "Meaningful Stone",
         albumTitle: "Angel Interview",
