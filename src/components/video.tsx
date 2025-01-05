@@ -3,7 +3,11 @@ import { Player } from "../player";
 import { Link, useParams } from "react-router";
 import { albums } from "../albums";
 
-export default function Video(props: { index: number }) {
+export default function Video(props: {
+    index: number;
+    volume: number;
+    startTime: number;
+}) {
     const [nav, setNav] = useState([false, true]);
     const [albumData, setAlbumData] = useState(albums[0]);
     const params = useParams();
@@ -31,7 +35,11 @@ export default function Video(props: { index: number }) {
                 zIndex: 100,
             }}
         >
-            <Player src={albumData.videoLink} />
+            <Player
+                src={albumData.videoLink}
+                volume={props.volume}
+                startTime={props.startTime}
+            />
 
             {/* <img width={400} src={albumData.cover} /> */}
         </div>

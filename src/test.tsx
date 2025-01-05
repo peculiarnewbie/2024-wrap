@@ -41,7 +41,6 @@ function Item({
     const scroll = useScroll();
     const { clicked, urls } = useSnapshot(albumState);
     const [hovered, hover] = useState(false);
-    const positionRef = useRef(new THREE.Vector3());
     const tempV = useRef(new THREE.Vector3());
     const { camera } = useThree();
     const click = () => {
@@ -56,17 +55,43 @@ function Item({
         if (!ref.current) return;
 
         ref.current.getWorldPosition(tempV.current);
-
         tempV.current.project(camera);
 
         const x = ((tempV.current.x + 1) * window.innerWidth) / 2;
         const y = ((-tempV.current.y + 1) * window.innerHeight) / 2;
 
-        positionRef.current.set(x, y, 0);
-
         document.documentElement.style.setProperty("--video-x", `${x}px`);
         document.documentElement.style.setProperty("--video-y", `${y}px`);
+
+        ref.current.getWorldScale(tempV.current);
+        tempV.current.project(camera);
+
+        const xScale = (tempV.current.x * window.innerWidth) / 2.5;
+        const yScale = (tempV.current.y * window.innerHeight) / 2.5;
+
+        document.documentElement.style.setProperty("--scale-x", `${xScale}px`);
+        document.documentElement.style.setProperty("--scale-y", `${yScale}px`);
+
+        if (ref.current.scale.y < 3.99) {
+            document.documentElement.style.setProperty("--video-opacity", "-2");
+            return;
+        } else {
+            let current = Number(
+                document.documentElement.style.getPropertyValue(
+                    "--video-opacity"
+                )
+            );
+
+            if (current > 1) return;
+
+            current += 0.03;
+            document.documentElement.style.setProperty(
+                "--video-opacity",
+                current.toString()
+            );
+        }
     };
+
     const over = () => hover(true);
     const out = () => hover(false);
 

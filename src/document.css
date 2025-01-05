@@ -13,6 +13,7 @@ body,
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 body {
@@ -45,8 +46,15 @@ svg {
     position: absolute;
     left: var(--video-x);
     top: var(--video-y);
+    width: var(--scale-x);
+    height: var(--scale-y);
     transform: translate(-50%, -50%);
     pointer-events: none;
+    opacity: var(--video-opacity);
+    /* transition: opacity 1000ms ease-in-out; */
+    /* transition-duration: 1000ms, 0ms; */
+    /* display: flex; */
+    /* justify-content: center; */
     /* Optional: add smooth transitions */
     /* transition: all 0.1s ease-out; */
     z-index: 100;
