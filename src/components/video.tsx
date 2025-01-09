@@ -27,13 +27,15 @@ export default function Video(props: {
 
     return (
         <div
-            style={{
-                display: "flex",
-                // position: "absolute",
-                top: 100,
-                left: 0,
-                zIndex: 100,
-            }}
+            style={
+                {
+                    // display: "flex",
+                    // position: "absolute",
+                    // top: 100,
+                    // left: 0,
+                    // zIndex: 100,
+                }
+            }
         >
             <Player
                 src={albumData.videoLink}

@@ -167,14 +167,16 @@ export function Items(props: {
 }) {
     // export function Items(props:{ w: 0.7, gap = 0.15  }) {
     const { urls } = useSnapshot(albumState);
-    const { width } = useThree((state) => state.viewport);
-    const pages = (width - props.w + urls.length * props.w) / width;
+    const { viewport, camera } = useThree();
+    camera.position.z = 10;
+    const pages =
+        (viewport.width - props.w + urls.length * props.w) / viewport.width;
     const xW = props.w + props.gap;
     return (
         <ScrollControls
             horizontal
             damping={0.1}
-            pages={(width - xW + urls.length * xW) / width}
+            pages={(viewport.width - xW + urls.length * xW) / viewport.width}
         >
             {/* <Minimap /> */}
             <Scroll>

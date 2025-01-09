@@ -19,7 +19,7 @@ export const Albums = () => {
     };
 
     return (
-        <div>
+        <div style={{ overscrollBehavior: "none", overflow: "hidden" }}>
             <Info album={albums[index]} />
             <div className="following-element">
                 {/* <div style={{ position: "absolute", top: 0, left: 0 }}></div> */}
