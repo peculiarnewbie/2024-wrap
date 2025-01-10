@@ -41,8 +41,9 @@ function Item({
     const scroll = useScroll();
     const { clicked, urls } = useSnapshot(albumState);
     const [hovered, hover] = useState(false);
-    const tempV = useRef(new THREE.Vector3());
-    const { camera } = useThree();
+    const tempPos = useRef(new THREE.Vector3());
+    const tempScale = useRef(new THREE.Vector3());
+    const { camera, viewport } = useThree();
     const click = () => {
         albumState.clicked = index === clicked ? null : index;
         //@ts-expect-error
@@ -54,20 +55,34 @@ function Item({
     const trackVideo = (pos: THREE.Vector3) => {
         if (!ref.current) return;
 
-        ref.current.getWorldPosition(tempV.current);
-        tempV.current.project(camera);
+        ref.current.getWorldPosition(tempPos.current);
+        tempPos.current.project(camera);
 
-        const x = ((tempV.current.x + 1) * window.innerWidth) / 2;
-        const y = ((-tempV.current.y + 1) * window.innerHeight) / 2;
+        const x = ((tempPos.current.x + 1) * window.innerWidth) / 2;
+        const y = ((-tempPos.current.y + 1) * window.innerHeight) / 2;
 
-        document.documentElement.style.setProperty("--video-x", `${x}px`);
-        document.documentElement.style.setProperty("--video-y", `${y}px`);
+        document.documentElement.style.setProperty("--video-x", `${x + 8}px`);
+        document.documentElement.style.setProperty("--video-y", `${y + 8}px`);
 
-        ref.current.getWorldScale(tempV.current);
-        tempV.current.project(camera);
+        ref.current.getWorldScale(tempScale.current);
+        // tempScale.current.project(camera);
 
-        const xScale = (tempV.current.x * window.innerWidth) / 2.5;
-        const yScale = (tempV.current.y * window.innerHeight) / 2.5;
+        const corner = tempPos.current.clone();
+        // corner.x += tempScale.current.x / 2;
+        // corner.y += tempScale.current.y / 2;
+        // corner.project(camera);
+
+        // const xScale = Math.abs(
+        //     (corner.x - tempPos.current.x) * viewport.width
+        // );
+        // const yScale = Math.abs(
+        //     (corner.y - tempPos.current.y) * viewport.height
+        // );
+
+        const newScale = camera.position.z * 1.5;
+
+        const yScale = (tempScale.current.y * window.innerHeight) / newScale;
+        const xScale = (yScale * 1.6) / 0.9;
 
         document.documentElement.style.setProperty("--scale-x", `${xScale}px`);
         document.documentElement.style.setProperty("--scale-y", `${yScale}px`);
@@ -96,6 +111,7 @@ function Item({
     const out = () => hover(false);
 
     useFrame((state, delta) => {
+        camera.position.z = setZResponsive(window.innerWidth);
         if (ref.current === undefined || ref.current === null) return;
         const y = scroll.curve(
             index / urls.length - 1.5 / urls.length,
@@ -167,8 +183,8 @@ export function Items(props: {
 }) {
     // export function Items(props:{ w: 0.7, gap = 0.15  }) {
     const { urls } = useSnapshot(albumState);
-    const { viewport, camera } = useThree();
-    camera.position.z = 10;
+    const { viewport } = useThree();
+    // camera.position.z = 5;
     const pages =
         (viewport.width - props.w + urls.length * props.w) / viewport.width;
     const xW = props.w + props.gap;
@@ -199,3 +215,17 @@ export const Test = () => (
         <Items w={0.7} gap={0.15} selectAlbum={(index) => console.log(index)} />
     </Canvas>
 );
+
+const setZResponsive = (width: number) => {
+    if (width > 1600) {
+        return 5;
+    } else if (width > 1000) {
+        return 8;
+    } else if (width > 700) {
+        return 12;
+    } else if (width > 500) {
+        return 16;
+    } else {
+        return 22;
+    }
+};
