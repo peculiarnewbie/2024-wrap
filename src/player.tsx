@@ -83,7 +83,7 @@ export function Player(props: {
             onCanPlay={onCanPlay}
             ref={player}
         >
-            {/* <MediaProvider></MediaProvider> */}
+            <MediaProvider></MediaProvider>
             <VideoLayout />
         </MediaPlayer>
     );
