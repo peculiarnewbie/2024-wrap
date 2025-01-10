@@ -16,7 +16,7 @@
         "target": "ESNext",
         "useDefineForClassFields": true,
         "verbatimModuleSyntax": true,
-        "types": ["vite/client", "bun"]
+        "types": ["vite/client"]
     },
     "include": ["src/**/*.ts", "src/**/*.tsx"],
     "references": [{ "path": "./tsconfig.node.json" }]
