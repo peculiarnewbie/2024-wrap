@@ -11,6 +11,7 @@ import {
     Poster,
     Track,
     useMediaRemote,
+    useMediaState,
     type MediaCanPlayDetail,
     type MediaCanPlayEvent,
     type MediaPlayerInstance,
@@ -24,24 +25,16 @@ export function Player(props: {
     src: string;
     volume: number;
     startTime: number;
+    setCurrentTime: (time: number) => void;
 }) {
     let player = useRef<MediaPlayerInstance>(null);
     const remote = useMediaRemote(player);
+    const time = useMediaState("currentTime", player);
 
     useEffect(() => {
-        // Subscribe to state updates.
-        return player.current!.subscribe(({ paused, viewType }) => {
-            // console.log('is paused?', '->', state.paused);
-            // console.log('is audio view?', '->', state.viewType === 'audio');
-        });
-    }, []);
-
-    useEffect(() => {
-        // console.log(player.current);
         setTimeout(() => {
             if (player.current) {
                 remote.play();
-                // player.current.setVolume(props.volume);
             }
         }, 500);
 
@@ -49,10 +42,13 @@ export function Player(props: {
             if (player.current) {
                 remote.changeVolume(props.volume);
                 remote.seek(props.startTime);
-                // player.current.setVolume(props.volume);
             }
         }, 1000);
     }, [props.volume, props.src]);
+
+    useEffect(() => {
+        props.setCurrentTime(time);
+    }, [time]);
 
     function onProviderChange(
         provider: MediaProviderAdapter | null,

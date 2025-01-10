@@ -10,23 +10,39 @@ export const Albums = () => {
     const remote = useMediaRemote();
     const { played } = useMediaStore();
     const [index, setIndex] = useState(24);
-    const [volume, setVolume] = useState(0.1);
+    const [updateIndex, setUpdateIndex] = useState(0);
+    const [volume, setVolume] = useState(0.5);
+    const [transitioning, setTransitioning] = useState(false);
     const selectAlbum = (index: number) => {
+        setTransitioning(true);
         setIndex(24 - index);
         setTimeout(() => {
-            setVolume(0.5);
+            setTransitioning(false);
         }, 500);
+    };
+
+    const nextIndex = () => {
+        console.log(index);
+        setUpdateIndex(24 - index + 1);
+    };
+
+    const setCurrentTime = (time: number) => {
+        console.log(time);
+        if (time > albums[index].endTime && !transitioning) {
+            nextIndex();
+        }
     };
 
     return (
         <div style={{ overscrollBehavior: "none", overflow: "hidden" }}>
             <Info album={albums[index]} />
+
             <div className="following-element">
-                {/* <div style={{ position: "absolute", top: 0, left: 0 }}></div> */}
                 <Video
                     index={index}
                     volume={volume}
                     startTime={albums[index].startTime}
+                    setCurrentTime={setCurrentTime}
                 />
             </div>
             <Canvas
@@ -34,7 +50,12 @@ export const Albums = () => {
                 dpr={[1, 1.5]}
                 onPointerMissed={() => (albumState.clicked = null)}
             >
-                <Items w={0.7} gap={0.15} selectAlbum={selectAlbum} />
+                <Items
+                    w={0.7}
+                    gap={0.15}
+                    selectAlbum={selectAlbum}
+                    updatedIndex={updateIndex}
+                />
             </Canvas>
         </div>
     );
@@ -47,12 +68,13 @@ const Info = (props: { album: Album }) => {
                 display: "flex",
                 position: "absolute",
                 zIndex: 100,
-                paddingTop: "100px",
+                marginTop: "100px",
                 width: "100%",
                 justifyContent: "center",
+                fontSize: "2rem",
             }}
         >
-            {props.album.albumTitle}
+            {props.album.artist + " - " + props.album.albumTitle}
         </div>
     );
 };

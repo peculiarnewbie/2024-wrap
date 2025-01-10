@@ -7,6 +7,7 @@ export default function Video(props: {
     index: number;
     volume: number;
     startTime: number;
+    setCurrentTime: (time: number) => void;
 }) {
     const [nav, setNav] = useState([false, true]);
     const [albumData, setAlbumData] = useState(albums[0]);
@@ -26,24 +27,13 @@ export default function Video(props: {
     }, [props.index]);
 
     return (
-        <div
-            style={
-                {
-                    // display: "flex",
-                    // position: "absolute",
-                    // top: 100,
-                    // left: 0,
-                    // zIndex: 100,
-                }
-            }
-        >
+        <div>
             <Player
                 src={albumData.videoLink}
                 volume={props.volume}
                 startTime={props.startTime}
+                setCurrentTime={props.setCurrentTime}
             />
-
-            {/* <img width={400} src={albumData.cover} /> */}
         </div>
     );
 }

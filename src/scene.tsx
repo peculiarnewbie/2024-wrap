@@ -24,6 +24,9 @@ export default function Scene() {
                 src={albumData.videoLink}
                 volume={0.5}
                 startTime={albumData.startTime}
+                setCurrentTime={(time) => {
+                    console.log(time);
+                }}
             />
             {nav[0] && (
                 <Link to={`/album/${parseInt(params.albumId ?? "0") - 1}`}>

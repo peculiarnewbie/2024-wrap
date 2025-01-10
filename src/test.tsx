@@ -30,6 +30,7 @@ function Item({
     c?: THREE.Color;
     selectAlbum: (index: number) => void;
     url: string;
+    updatedIndex?: number;
 }) {
     const ref = useRef() as RefObject<
         THREE.Mesh<
@@ -51,6 +52,12 @@ function Item({
         props.selectAlbum(index);
         // console.log(scroll.el.scrollLeft);
     };
+
+    useEffect(() => {
+        if (props.updatedIndex === index) {
+            click();
+        }
+    }, [props.updatedIndex]);
 
     const trackVideo = (pos: THREE.Vector3) => {
         if (!ref.current) return;
@@ -180,6 +187,7 @@ export function Items(props: {
     w: number;
     gap: number;
     selectAlbum: (index: number) => void;
+    updatedIndex?: number;
 }) {
     // export function Items(props:{ w: 0.7, gap = 0.15  }) {
     const { urls } = useSnapshot(albumState);
@@ -198,7 +206,7 @@ export function Items(props: {
             <Scroll>
                 {
                     urls.map((url, i) =>
-                        <Item key={i} index={i} position={[i * xW, 0, 0]} scale={[props.w, 4]} url={url} selectAlbum={props.selectAlbum} />
+                        <Item key={i} index={i} position={[i * xW, 0, 0]} scale={[props.w, 4]} url={url} selectAlbum={props.selectAlbum} updatedIndex={props.updatedIndex} />
                     ) /* prettier-ignore */
                 }
             </Scroll>
