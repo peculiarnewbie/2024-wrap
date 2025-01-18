@@ -28,8 +28,8 @@ export const albums: Album[] = [
         albumTitle: "Imaginal Disk",
         videoLink: "https://www.youtube.com/watch?v=bd1i6CYVE6c",
         cover: "/covers/3-MagdalenaBay.webp",
-        startTime: 169,
-        endTime: 184,
+        startTime: 110,
+        endTime: 125,
     },
     {
         artist: "Billie Eilish",

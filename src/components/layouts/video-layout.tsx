@@ -26,15 +26,10 @@ export function VideoLayout({ thumbnails }: VideoLayoutProps) {
                 <Controls.Group className={styles.controlsGroup}>
                     <Buttons.Play tooltipPlacement="top start" />
                     <Buttons.Mute tooltipPlacement="top" />
-                    <Sliders.Volume />
+                    {/* <Sliders.Volume /> */}
                     <TimeGroup />
                     <ChapterTitle className={chapterTitleStyles.title} />
                     <div className={styles.spacer} />
-                    <Buttons.Caption tooltipPlacement="top" />
-                    <Menus.Settings
-                        placement="top end"
-                        tooltipPlacement="top"
-                    />
                     <Buttons.PIP tooltipPlacement="top" />
                     <Buttons.Fullscreen tooltipPlacement="top end" />
                 </Controls.Group>

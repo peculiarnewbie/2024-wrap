@@ -193,8 +193,8 @@ export function Items(props: {
     const { urls } = useSnapshot(albumState);
     const { viewport } = useThree();
     // camera.position.z = 5;
-    const pages =
-        (viewport.width - props.w + urls.length * props.w) / viewport.width;
+    // const pages =
+    //     (viewport.width - props.w + urls.length * props.w) / viewport.width;
     const xW = props.w + props.gap;
     return (
         <ScrollControls
@@ -204,11 +204,17 @@ export function Items(props: {
         >
             {/* <Minimap /> */}
             <Scroll>
-                {
-                    urls.map((url, i) =>
-                        <Item key={i} index={i} position={[i * xW, 0, 0]} scale={[props.w, 4]} url={url} selectAlbum={props.selectAlbum} updatedIndex={props.updatedIndex} />
-                    ) /* prettier-ignore */
-                }
+                {urls.map((url, i) => (
+                    <Item
+                        key={i}
+                        index={i}
+                        position={[i * xW, 0, 0]}
+                        scale={[props.w, 4]}
+                        url={url}
+                        selectAlbum={props.selectAlbum}
+                        updatedIndex={props.updatedIndex}
+                    />
+                ))}
             </Scroll>
         </ScrollControls>
     );
@@ -218,7 +224,9 @@ export const Test = () => (
     <Canvas
         gl={{ antialias: false }}
         dpr={[1, 1.5]}
-        onPointerMissed={() => (albumState.clicked = null)}
+        onPointerMissed={() => {
+            albumState.clicked = null;
+        }}
     >
         <Items w={0.7} gap={0.15} selectAlbum={(index) => console.log(index)} />
     </Canvas>
@@ -228,12 +236,12 @@ const setZResponsive = (width: number) => {
     if (width > 1600) {
         return 5;
     } else if (width > 1000) {
-        return 8;
+        return 7;
     } else if (width > 700) {
-        return 12;
+        return 10;
     } else if (width > 500) {
-        return 16;
+        return 12;
     } else {
-        return 22;
+        return 15;
     }
 };

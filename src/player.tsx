@@ -40,11 +40,15 @@ export function Player(props: {
 
         setTimeout(() => {
             if (player.current) {
-                remote.changeVolume(props.volume);
+                // remote.changeVolume(props.volume);
                 remote.seek(props.startTime);
             }
         }, 1000);
-    }, [props.volume, props.src]);
+    }, [props.src]);
+
+    useEffect(() => {
+        console.log(props.volume);
+    }, [props.volume]);
 
     useEffect(() => {
         props.setCurrentTime(time);
@@ -78,6 +82,7 @@ export function Player(props: {
             onProviderChange={onProviderChange}
             onCanPlay={onCanPlay}
             ref={player}
+            volume={props.volume / 100}
         >
             <MediaProvider></MediaProvider>
             <VideoLayout />

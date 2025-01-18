@@ -5,6 +5,8 @@ import Video from "./video";
 import { useState } from "react";
 import { useMediaRemote, useMediaStore } from "@vidstack/react";
 import "../document.css";
+import VolumeSlider from "./radix/slider";
+import ProgressDemo from "./radix/progress";
 
 export const Albums = () => {
     const remote = useMediaRemote();
@@ -13,6 +15,7 @@ export const Albums = () => {
     const [updateIndex, setUpdateIndex] = useState(0);
     const [volume, setVolume] = useState(0.5);
     const [transitioning, setTransitioning] = useState(false);
+    const [progress, setProgress] = useState(0);
     const selectAlbum = (index: number) => {
         setTransitioning(true);
         setIndex(24 - index);
@@ -27,10 +30,13 @@ export const Albums = () => {
     };
 
     const setCurrentTime = (time: number) => {
-        console.log(time);
         if (time > albums[index].endTime && !transitioning) {
             nextIndex();
         }
+        const progress =
+            (100 * (time - albums[index].startTime)) /
+            (albums[index].endTime - 0.5 - albums[index].startTime);
+        setProgress(progress);
     };
 
     return (
@@ -45,10 +51,12 @@ export const Albums = () => {
                     setCurrentTime={setCurrentTime}
                 />
             </div>
+
+            <Controls progress={progress} onVolumeChange={setVolume} />
             <Canvas
                 gl={{ antialias: false }}
                 dpr={[1, 1.5]}
-                onPointerMissed={() => (albumState.clicked = null)}
+                // onPointerMissed={() => (albumState.clicked = null)}
             >
                 <Items
                     w={0.7}
@@ -74,7 +82,38 @@ const Info = (props: { album: Album }) => {
                 fontSize: "2rem",
             }}
         >
-            {props.album.artist + " - " + props.album.albumTitle}
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                }}
+            >
+                <div>{props.album.artist + " - " + props.album.albumTitle}</div>
+            </div>
+        </div>
+    );
+};
+
+const Controls = (props: {
+    progress: number;
+    onVolumeChange: (volume: number) => void;
+}) => {
+    return (
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                position: "absolute",
+                zIndex: 100,
+                bottom: "0",
+                width: "100%",
+                alignItems: "center",
+                fontSize: "2rem",
+            }}
+        >
+            <VolumeSlider onVolumeChange={props.onVolumeChange} />
+            <ProgressDemo progress={props.progress} />
         </div>
     );
 };
