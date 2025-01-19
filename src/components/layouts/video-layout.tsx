@@ -26,7 +26,6 @@ export function VideoLayout({ thumbnails }: VideoLayoutProps) {
                 <Controls.Group className={styles.controlsGroup}>
                     <Buttons.Play tooltipPlacement="top start" />
                     <Buttons.Mute tooltipPlacement="top" />
-                    {/* <Sliders.Volume /> */}
                     <TimeGroup />
                     <ChapterTitle className={chapterTitleStyles.title} />
                     <div className={styles.spacer} />

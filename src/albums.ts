@@ -13,7 +13,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=059MGiB2Kr4",
         cover: "/covers/1-MeaningfulStone.webp",
         startTime: 171,
-        endTime: 186,
+        endTime: 191,
     },
     {
         artist: "Clairo",
@@ -21,7 +21,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=iUxlnNnAoTc",
         cover: "/covers/2-Clairo.webp",
         startTime: 137,
-        endTime: 152,
+        endTime: 157,
     },
     {
         artist: "Magdalena Bay",
@@ -29,7 +29,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=bd1i6CYVE6c",
         cover: "/covers/3-MagdalenaBay.webp",
         startTime: 110,
-        endTime: 125,
+        endTime: 133,
     },
     {
         artist: "Billie Eilish",
@@ -37,23 +37,23 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=V9PVRfjEBTI",
         cover: "/covers/4-BillieEilish.webp",
         startTime: 143,
-        endTime: 158,
+        endTime: 164,
     },
     {
         artist: "Charli XCX",
         albumTitle: "Brat",
         videoLink: "https://www.youtube.com/watch?v=WJW-VvmRKsE",
         cover: "/covers/5-CharliXCX.webp",
-        startTime: 199,
-        endTime: 214,
+        startTime: 200,
+        endTime: 220,
     },
     {
         artist: "Scandal",
         albumTitle: "Luminous",
         videoLink: "https://www.youtube.com/watch?v=4ye9nC4Xy3M",
         cover: "/covers/6-Scandal.webp",
-        startTime: 162,
-        endTime: 177,
+        startTime: 162.5,
+        endTime: 182,
     },
     {
         artist: "Logic",
@@ -61,7 +61,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=8U08jK8IVjc",
         cover: "/covers/7-Logic.webp",
         startTime: 50,
-        endTime: 65,
+        endTime: 70,
     },
     {
         artist: "Godspeed You! Black Emperor",
@@ -69,7 +69,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=Q8-55QejRck",
         cover: "/covers/8-GodspeedYouBlackEmperor.webp",
         startTime: 705,
-        endTime: 720,
+        endTime: 725,
     },
     {
         artist: "Remi Wolf",
@@ -77,7 +77,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=4A7LIv_2Ips",
         cover: "/covers/9-RemiWolf.webp",
         startTime: 103,
-        endTime: 118,
+        endTime: 123.2,
     },
     {
         artist: "Quadeca",
@@ -85,7 +85,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=QxU1G44iOpc",
         cover: "/covers/10-Quadeca.webp",
         startTime: 97,
-        endTime: 112,
+        endTime: 116.3,
     },
     {
         artist: "Aurora",
@@ -93,7 +93,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=KKuPq1Opc60",
         cover: "/covers/11-Aurora.webp",
         startTime: 195,
-        endTime: 210,
+        endTime: 211.3,
     },
     {
         artist: "Poppy",
@@ -101,7 +101,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=OqVNYcaS-3E",
         cover: "/covers/12-Poppy.webp",
         startTime: 51,
-        endTime: 66,
+        endTime: 69.9,
     },
     {
         artist: "Willow",
@@ -109,7 +109,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=wQtVSNmYCNg",
         cover: "/covers/13-Willow.webp",
         startTime: 98,
-        endTime: 113,
+        endTime: 117.5,
     },
     {
         artist: "The Last Dinner Party",
@@ -117,7 +117,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=wqcYU_eoihU",
         cover: "/covers/14-TheLastDinnerParty.webp",
         startTime: 171,
-        endTime: 186,
+        endTime: 193,
     },
     {
         artist: "Laura Marling",
@@ -125,7 +125,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=8QH0bONb7RQ",
         cover: "/covers/15-LauraMarling.webp",
         startTime: 29,
-        endTime: 44,
+        endTime: 47,
     },
     {
         artist: "Chelsea Wolfe",
@@ -133,7 +133,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=a4KJRuADHQE",
         cover: "/covers/16-ChelseaWolfe.webp",
         startTime: 119,
-        endTime: 134,
+        endTime: 139,
     },
     {
         artist: "Tyler, The Creator",
@@ -141,7 +141,7 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=Qer3lwd5hyA",
         cover: "/covers/17-TylerTheCreator.webp",
         startTime: 62,
-        endTime: 77,
+        endTime: 83.1,
     },
     {
         artist: "Joanna Wang",
@@ -205,6 +205,6 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=_A6ApDZkdzc",
         cover: "/covers/25-MachHommy.webp",
         startTime: 30.5,
-        endTime: 47,
+        endTime: 43.3,
     },
 ];

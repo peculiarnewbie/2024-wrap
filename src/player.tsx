@@ -43,7 +43,7 @@ export function Player(props: {
                 // remote.changeVolume(props.volume);
                 remote.seek(props.startTime);
             }
-        }, 1000);
+        }, 600);
     }, [props.src]);
 
     useEffect(() => {

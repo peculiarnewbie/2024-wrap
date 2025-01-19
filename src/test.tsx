@@ -46,7 +46,7 @@ function Item({
     const tempScale = useRef(new THREE.Vector3());
     const { camera, viewport } = useThree();
     const click = () => {
-        albumState.clicked = index === clicked ? null : index;
+        albumState.clicked = index;
         //@ts-expect-error
         scroll.scroll.current = index / (urls.length - 1);
         props.selectAlbum(index);
@@ -225,7 +225,7 @@ export const Test = () => (
         gl={{ antialias: false }}
         dpr={[1, 1.5]}
         onPointerMissed={() => {
-            albumState.clicked = null;
+            // albumState.clicked = null;
         }}
     >
         <Items w={0.7} gap={0.15} selectAlbum={(index) => console.log(index)} />

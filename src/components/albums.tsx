@@ -1,8 +1,8 @@
 import { Canvas } from "@react-three/fiber";
 import { albumState, Items } from "../test";
-import { albums, type Album } from "../albums";
+import { albums } from "../albums";
 import Video from "./video";
-import { useState } from "react";
+import { useEffect, useState, type WheelEvent } from "react";
 import { useMediaRemote, useMediaStore } from "@vidstack/react";
 import "../document.css";
 import VolumeSlider from "./radix/slider";
@@ -10,19 +10,21 @@ import ProgressDemo from "./radix/progress";
 
 export const Albums = () => {
     const remote = useMediaRemote();
-    const { played } = useMediaStore();
-    const [index, setIndex] = useState(24);
-    const [updateIndex, setUpdateIndex] = useState(0);
-    const [volume, setVolume] = useState(0.5);
+    const [index, setIndex] = useState(25);
+    const [updateIndex, setUpdateIndex] = useState(-1);
+    const [volume, setVolume] = useState(50);
     const [transitioning, setTransitioning] = useState(false);
     const [progress, setProgress] = useState(0);
     const selectAlbum = (index: number) => {
         setTransitioning(true);
+        setProgress(0);
         setIndex(24 - index);
         setTimeout(() => {
             setTransitioning(false);
         }, 500);
     };
+
+    let scrollTimer = 0;
 
     const nextIndex = () => {
         console.log(index);
@@ -33,21 +35,46 @@ export const Albums = () => {
         if (time > albums[index].endTime && !transitioning) {
             nextIndex();
         }
-        const progress =
+        let progress =
             (100 * (time - albums[index].startTime)) /
             (albums[index].endTime - 0.5 - albums[index].startTime);
+        if (progress > 100) progress = 100;
+        else if (progress < 0) progress = 0;
         setProgress(progress);
     };
 
+    useEffect(() => {
+        let scrollTimer = 0;
+
+        const handleScroll = () => {
+            document.documentElement.classList.add("scrolling");
+            scrollTimer = setTimeout(() => {
+                document.documentElement.classList.remove("scrolling");
+            }, 100);
+        };
+
+        window.addEventListener("wheel", handleScroll);
+
+        // Cleanup function to remove the event listener
+        return () => {
+            window.removeEventListener("wheel", handleScroll);
+            clearTimeout(scrollTimer);
+        };
+    }, []); // Empty dependency array means this effect runs once on mount
+
     return (
         <div style={{ overscrollBehavior: "none", overflow: "hidden" }}>
-            <Info album={albums[index]} />
+            <Info
+                artist={albums[index]?.artist ?? ""}
+                albumTitle={albums[index]?.albumTitle ?? ""}
+            />
 
             <div className="following-element">
                 <Video
                     index={index}
                     volume={volume}
-                    startTime={albums[index].startTime}
+                    startTime={albums[index]?.startTime ?? 0}
+                    videoLink={albums[index]?.videoLink ?? ""}
                     setCurrentTime={setCurrentTime}
                 />
             </div>
@@ -56,7 +83,11 @@ export const Albums = () => {
             <Canvas
                 gl={{ antialias: false }}
                 dpr={[1, 1.5]}
-                // onPointerMissed={() => (albumState.clicked = null)}
+                onPointerMissed={() => {
+                    albumState.clicked = null;
+                    setIndex(25);
+                    setProgress(0);
+                }}
             >
                 <Items
                     w={0.7}
@@ -69,7 +100,7 @@ export const Albums = () => {
     );
 };
 
-const Info = (props: { album: Album }) => {
+const Info = (props: { artist: string; albumTitle: string }) => {
     return (
         <div
             style={{
@@ -89,7 +120,11 @@ const Info = (props: { album: Album }) => {
                     flexDirection: "column",
                 }}
             >
-                <div>{props.album.artist + " - " + props.album.albumTitle}</div>
+                {props.artist !== "" ? (
+                    <div>{props.artist + " - " + props.albumTitle}</div>
+                ) : (
+                    <div style={{ fontSize: 15 }}>select an album</div>
+                )}
             </div>
         </div>
     );
