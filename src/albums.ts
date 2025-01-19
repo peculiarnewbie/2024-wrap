@@ -149,14 +149,14 @@ export const albums: Album[] = [
         videoLink: "https://www.youtube.com/watch?v=8MXInlatmOU",
         cover: "/covers/18-JoannaWang.webp",
         startTime: 124,
-        endTime: 139,
+        endTime: 138.8,
     },
     {
         artist: "Akrilla",
         albumTitle: "epistolares",
         videoLink: "https://www.youtube.com/watch?v=2e2oKjgh1YQ",
         cover: "/covers/19-Akrilla.webp",
-        startTime: 167,
+        startTime: 167.5,
         endTime: 182,
     },
     {

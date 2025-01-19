@@ -7,6 +7,7 @@ import { useMediaRemote, useMediaStore } from "@vidstack/react";
 import "../document.css";
 import VolumeSlider from "./radix/slider";
 import ProgressDemo from "./radix/progress";
+import { useScroll } from "@react-three/drei";
 
 export const Albums = () => {
     const remote = useMediaRemote();
@@ -15,16 +16,17 @@ export const Albums = () => {
     const [volume, setVolume] = useState(50);
     const [transitioning, setTransitioning] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [isAtEnd, setIsAtEnd] = useState(false);
+    const [bgSrc, setBgSrc] = useState("");
     const selectAlbum = (index: number) => {
         setTransitioning(true);
         setProgress(0);
         setIndex(24 - index);
         setTimeout(() => {
+            setBgSrc(albums[24 - index]?.cover ?? "");
             setTransitioning(false);
         }, 500);
     };
-
-    let scrollTimer = 0;
 
     const nextIndex = () => {
         console.log(index);
@@ -43,25 +45,6 @@ export const Albums = () => {
         setProgress(progress);
     };
 
-    useEffect(() => {
-        let scrollTimer = 0;
-
-        const handleScroll = () => {
-            document.documentElement.classList.add("scrolling");
-            scrollTimer = setTimeout(() => {
-                document.documentElement.classList.remove("scrolling");
-            }, 100);
-        };
-
-        window.addEventListener("wheel", handleScroll);
-
-        // Cleanup function to remove the event listener
-        return () => {
-            window.removeEventListener("wheel", handleScroll);
-            clearTimeout(scrollTimer);
-        };
-    }, []); // Empty dependency array means this effect runs once on mount
-
     return (
         <div style={{ overscrollBehavior: "none", overflow: "hidden" }}>
             <Info
@@ -79,9 +62,16 @@ export const Albums = () => {
                 />
             </div>
 
-            <Controls progress={progress} onVolumeChange={setVolume} />
+            <EndCard isAtEnd={isAtEnd} />
+
+            <Controls
+                progress={progress}
+                onVolumeChange={setVolume}
+                position={(index + 1).toString()}
+            />
             <Canvas
-                gl={{ antialias: false }}
+                style={{ zIndex: 1 }}
+                gl={{ antialias: false, alpha: true }}
                 dpr={[1, 1.5]}
                 onPointerMissed={() => {
                     albumState.clicked = null;
@@ -94,8 +84,24 @@ export const Albums = () => {
                     gap={0.15}
                     selectAlbum={selectAlbum}
                     updatedIndex={updateIndex}
+                    onReachEnd={setIsAtEnd}
                 />
             </Canvas>
+            <img
+                src={bgSrc}
+                style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    zIndex: 0,
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    opacity: transitioning ? 0 : 0.15,
+                    transition: "opacity 200ms ease-in-out",
+                    filter: "blur(15px)",
+                }}
+            />
         </div>
     );
 };
@@ -113,19 +119,21 @@ const Info = (props: { artist: string; albumTitle: string }) => {
                 fontSize: "2rem",
             }}
         >
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                }}
-            >
-                {props.artist !== "" ? (
-                    <div>{props.artist + " - " + props.albumTitle}</div>
-                ) : (
-                    <div style={{ fontSize: 15 }}>select an album</div>
-                )}
-            </div>
+            {props.artist !== "" ? (
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                        alignItems: "center",
+                    }}
+                >
+                    <div>{props.artist}</div>
+                    <div>{props.albumTitle}</div>
+                </div>
+            ) : (
+                <div style={{ fontSize: 15 }}>select an album</div>
+            )}
         </div>
     );
 };
@@ -133,6 +141,7 @@ const Info = (props: { artist: string; albumTitle: string }) => {
 const Controls = (props: {
     progress: number;
     onVolumeChange: (volume: number) => void;
+    position: string;
 }) => {
     return (
         <div
@@ -147,8 +156,103 @@ const Controls = (props: {
                 fontSize: "2rem",
             }}
         >
+            <div
+                style={{
+                    fontSize: 50,
+                    paddingBottom: "10vh",
+                }}
+            >
+                {props.position === "26" ? "" : props.position}
+            </div>
             <VolumeSlider onVolumeChange={props.onVolumeChange} />
             <ProgressDemo progress={props.progress} />
+        </div>
+    );
+};
+
+const EndCard = (props: { isAtEnd: boolean }) => {
+    return (
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                position: "absolute",
+                zIndex: 100,
+                top: "0",
+                right: "0",
+                height: "100%",
+                alignItems: "end",
+                pointerEvents: "none",
+                opacity: props.isAtEnd ? 1 : 0,
+                transition: "opacity 200ms ease-in-out",
+            }}
+            className="end-card"
+        >
+            <div
+                style={{
+                    pointerEvents: props.isAtEnd ? "all" : "none",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "end",
+                }}
+            >
+                <a
+                    style={{
+                        pointerEvents: "inherit",
+                    }}
+                    href="https://www.youtube.com/playlist?list=PLQG7Jc1PJtPRE4s7G8oSL1a1V46ZjCHoA"
+                    target="_blank"
+                >
+                    Full Playlist →
+                </a>
+                <a
+                    style={{
+                        pointerEvents: "inherit",
+                    }}
+                    href="/tmi"
+                >
+                    #TMI →
+                </a>
+                <a
+                    style={{
+                        pointerEvents: "inherit",
+                    }}
+                    href="https://peculiarnewbie.com"
+                >
+                    by Peculiarnewbie →
+                </a>
+                <p
+                    style={{
+                        marginBottom: 0,
+                    }}
+                    className="tools"
+                >
+                    created using{" "}
+                    <a
+                        style={{ fontWeight: "bold" }}
+                        href="https://vidstack.io/"
+                        target="_blank"
+                    >
+                        vidstack
+                    </a>
+                </p>
+
+                <p
+                    style={{
+                        marginTop: 0,
+                    }}
+                    className="tools"
+                >
+                    and{" "}
+                    <a
+                        style={{ fontWeight: "bold" }}
+                        href="https://r3f.docs.pmnd.rs/"
+                        target="_blank"
+                    >
+                        react three fiber
+                    </a>
+                </p>
+            </div>
         </div>
     );
 };

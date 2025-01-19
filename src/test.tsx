@@ -31,6 +31,7 @@ function Item({
     selectAlbum: (index: number) => void;
     url: string;
     updatedIndex?: number;
+    onReachEnd?: (condition: boolean) => void;
 }) {
     const ref = useRef() as RefObject<
         THREE.Mesh<
@@ -68,8 +69,8 @@ function Item({
         const x = ((tempPos.current.x + 1) * window.innerWidth) / 2;
         const y = ((-tempPos.current.y + 1) * window.innerHeight) / 2;
 
-        document.documentElement.style.setProperty("--video-x", `${x + 8}px`);
-        document.documentElement.style.setProperty("--video-y", `${y + 8}px`);
+        document.documentElement.style.setProperty("--video-x", `${x}px`);
+        document.documentElement.style.setProperty("--video-y", `${y}px`);
 
         ref.current.getWorldScale(tempScale.current);
         // tempScale.current.project(camera);
@@ -118,7 +119,14 @@ function Item({
     const out = () => hover(false);
 
     useFrame((state, delta) => {
+        // console.log(scroll.scroll.current);
         camera.position.z = setZResponsive(window.innerWidth);
+        //@ts-expect-error
+        if (scroll.scroll.current > 0.97) {
+            props.onReachEnd?.(true);
+        } else {
+            props.onReachEnd?.(false);
+        }
         if (ref.current === undefined || ref.current === null) return;
         const y = scroll.curve(
             index / urls.length - 1.5 / urls.length,
@@ -188,6 +196,7 @@ export function Items(props: {
     gap: number;
     selectAlbum: (index: number) => void;
     updatedIndex?: number;
+    onReachEnd?: (condition: boolean) => void;
 }) {
     // export function Items(props:{ w: 0.7, gap = 0.15  }) {
     const { urls } = useSnapshot(albumState);
@@ -213,24 +222,13 @@ export function Items(props: {
                         url={url}
                         selectAlbum={props.selectAlbum}
                         updatedIndex={props.updatedIndex}
+                        onReachEnd={props.onReachEnd}
                     />
                 ))}
             </Scroll>
         </ScrollControls>
     );
 }
-
-export const Test = () => (
-    <Canvas
-        gl={{ antialias: false }}
-        dpr={[1, 1.5]}
-        onPointerMissed={() => {
-            // albumState.clicked = null;
-        }}
-    >
-        <Items w={0.7} gap={0.15} selectAlbum={(index) => console.log(index)} />
-    </Canvas>
-);
 
 const setZResponsive = (width: number) => {
     if (width > 1600) {

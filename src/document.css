@@ -11,8 +11,8 @@ body,
 #root {
     width: 100%;
     height: 100%;
-    /* margin: 0;
-    padding: 0; */
+    margin: 0;
+    padding: 0;
     overflow: hidden;
 }
 
@@ -122,4 +122,31 @@ svg {
     width: 100%;
     height: 100%;
     transition: transform 500ms linear;
+}
+
+.end-card {
+    font-size: 15px;
+    justify-content: end;
+    padding-bottom: 12vh;
+    padding-right: 15px;
+}
+
+.tools {
+    font-size: 10px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+@media screen and (min-width: 1500px) {
+    .end-card {
+        padding-bottom: 0%;
+        font-size: 25px;
+        justify-content: center;
+    }
+
+    .tools {
+        font-size: 15px;
+    }
 }
