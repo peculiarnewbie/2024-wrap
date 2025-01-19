@@ -20,7 +20,7 @@ body {
     /* overscroll-behavior: none; */
     background: #151515;
     color: #a0a0a0;
-    font-family: "Inter var", sans-serif;
+    font-family: "Fredoka", serif;
 }
 
 h1 {
@@ -129,6 +129,7 @@ svg {
     justify-content: end;
     padding-bottom: 12vh;
     padding-right: 15px;
+    font-family: "Inter var", sans-serif;
 }
 
 .tools {

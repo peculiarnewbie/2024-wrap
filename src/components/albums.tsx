@@ -126,10 +126,11 @@ const Info = (props: { artist: string; albumTitle: string }) => {
                         justifyContent: "center",
                         flexDirection: "column",
                         alignItems: "center",
+                        textAlign: "center",
                     }}
                 >
                     <div>{props.artist}</div>
-                    <div>{props.albumTitle}</div>
+                    <div style={{ fontSize: "1.5rem" }}>{props.albumTitle}</div>
                 </div>
             ) : (
                 <div style={{ fontSize: 15 }}>select an album</div>
