@@ -178,7 +178,7 @@ const EndCard = (props: { isAtEnd: boolean }) => {
                 display: "flex",
                 flexDirection: "column",
                 position: "absolute",
-                zIndex: 100,
+                zIndex: 101,
                 top: "0",
                 right: "0",
                 height: "100%",
@@ -201,16 +201,8 @@ const EndCard = (props: { isAtEnd: boolean }) => {
                     style={{
                         pointerEvents: "inherit",
                     }}
-                    href="https://www.youtube.com/playlist?list=PLQG7Jc1PJtPRE4s7G8oSL1a1V46ZjCHoA"
-                    target="_blank"
-                >
-                    Full Playlist →
-                </a>
-                <a
-                    style={{
-                        pointerEvents: "inherit",
-                    }}
                     href="/tmi"
+                    target="_blank"
                 >
                     #TMI →
                 </a>
@@ -218,9 +210,19 @@ const EndCard = (props: { isAtEnd: boolean }) => {
                     style={{
                         pointerEvents: "inherit",
                     }}
-                    href="https://peculiarnewbie.com"
+                    href="https://www.youtube.com/playlist?list=PLQG7Jc1PJtPRE4s7G8oSL1a1V46ZjCHoA"
+                    target="_blank"
                 >
-                    by Peculiarnewbie →
+                    full playlist →
+                </a>
+                <a
+                    style={{
+                        pointerEvents: "inherit",
+                    }}
+                    href="https://github.com/peculiarnewbie/2024-wrap"
+                    target="_blank"
+                >
+                    source code →
                 </a>
                 <p
                     style={{
